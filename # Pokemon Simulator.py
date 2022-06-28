@@ -24,13 +24,6 @@ In no uncertain terms, does Pokémon's use of Fan Art constitute a grant to Fan 
 noncommercial home use.
 ------------------------------------------------\n""")
 
-# Pokemon Simulator
-# Date: 14/06/22
-# By: Samuel Collinson
-
-import random
-
-
 enemy_pokemon = ["Volbeat", "Magnemite", "Flapple", "Magby", "Toxicroak", "Exeggcute",
 "Tympole", "Porygon", "Typhlosion", "Shieldon", "Ludicolo", "Venomoth",
 "Pyroar", "Delibird", "Hatterene", "Wailme", "Gligar", "Electrike", "Yungoos"]
@@ -59,6 +52,6 @@ def user_choice():
             else:
                 print("Invalid choice")
         except:
-            print("Please enter a number")
+            print("Please enter a number") 
 
 user_choice()
