@@ -3,6 +3,15 @@
 # By: Samuel Collinson
 
 import random
+import csv
+moves = {}
+with open("move_data.csv", mode="r") as move_data:
+    reader = csv.reader(move_data)
+    for row in reader:
+        moves[row[0]] = []
+        for i in range(1,5):
+            moves[row[0]].append(row[i])
+
 
 print("""------------------------------------------------
             !!!!!!DISCLAIMER!!!!!
@@ -44,9 +53,9 @@ ENEMY_POKEMON_SPEED = {"Volbeat": 85, "Magnemite": 45, "Flapple": 70, "Magby": 8
 "Tympole": 64 , "Porygon": 85, "Typhlosion": 100, "Shieldon": 30, "Ludicolo": 70, "Venomoth": 90,
 "Pyroar": 106, "Delibird": 65, "Hatterene": 29, "Wailmer": 60, "Gligar": 85, "Electrike": 65, "Yungoos": 45}
 
-ENEMY_POKEMON_TYPES = {"Volbeat": ["bug"], "Magnemite": ["electric", "steel"], "Flapple": ["grass", "dragon"], "Magby": ["fire"], "Toxicroak": ["poison", "fighing"] , "Exeggcute": ["grass", "psychic"],
-"Tympole": ["water"] , "Porygon": ["normal"], "Typhlosion": ["fire"], "Shieldon": ["rock", "steel"], "Ludicolo": ["water", "grass"], "Venomoth": ["bug", "poison"],
-"Pyroar": ["fire", "normal"], "Delibird": ["ice", "flying"], "Hatterene": ["psychic", "fairy"], "Wailmer": ["water"], "Gligar": ["ground", "flying"], "Electrike": ["electric"], "Yungoos":["normal"]}
+ENEMY_POKEMON_TYPES = {"Volbeat": ["Bug"], "Magnemite": ["Electric", "Steel"], "Flapple": ["Grass", "Dragon"], "Magby": ["Fire"], "Toxicroak": ["Poison", "Fighing"] , "Exeggcute": ["Grass", "Psychic"],
+"Tympole": ["Water"] , "Porygon": ["Normal"], "Typhlosion": ["Fire"], "Shieldon": ["Rock", "Steel"], "Ludicolo": ["Water", "Grass"], "Venomoth": ["Bug", "Poison"],
+"Pyroar": ["Fire", "Normal"], "Delibird": ["Ice", "Flying"], "Hatterene": ["Psychic", "Fairy"], "Wailmer": ["Water"], "Gligar": ["Ground", "Flying"], "Electrike": ["Electric"], "Yungoos":["Normal"]}
 
 
 USER_POKEMONS = ["Thwackey", "Snover", "Salamence", "Caterpie", "Grubbin",
@@ -58,7 +67,9 @@ USER_POKEMONS = ["Thwackey", "Snover", "Salamence", "Caterpie", "Grubbin",
 random.shuffle(ENEMY_POKEMONS)
 random.shuffle(USER_POKEMONS)
 
+
 ENEMY_POKEMON = []
+enemy_pokemon_types = []
 def enemy_pokemon_stats():
     enemy_level =  random.randint(40, 60)
     print(enemy_level)
@@ -66,6 +77,21 @@ def enemy_pokemon_stats():
     print(f"{enemy_pokemon_hp}hp")
     enemy_pokemon_attack = int(((2 * ENEMY_POKEMON_ATTACK[ENEMY_POKEMONS[0]]) * enemy_level) / 100) + 5
     print(enemy_pokemon_attack)
+
+    for i in ENEMY_POKEMON_TYPES:
+        if i == ENEMY_POKEMONS[0]:
+            for type in ENEMY_POKEMON_TYPES[i]:
+                enemy_pokemon_types.append(type)
+            print(enemy_pokemon_types)
+    print(ENEMY_POKEMON_TYPES[ENEMY_POKEMONS[0]])
+    for move in moves:
+        print(moves[move])
+        for i in moves[move]:
+            for type in moves[move][i]:
+                print(type)
+    
+            
+
     ENEMY_POKEMON.extend([ENEMY_POKEMONS[0], enemy_level,ENEMY_POKEMON_TYPES[ENEMY_POKEMONS[0]],
     ENEMY_POKEMON_ATTACK[ENEMY_POKEMONS[0]], ENEMY_POKEMON_DEFENSE[ENEMY_POKEMONS[0]],
     ENEMY_POKEMON_SPEED[ENEMY_POKEMONS[0]], ENEMY_POKEMON_HEALTH[ENEMY_POKEMONS[0]]])
@@ -75,15 +101,19 @@ def enemy_pokemon_stats():
 
 
 def user_choice():
-    print(f"You will be battling against: {ENEMY_POKEMONS[0]}")
-    enemy_pokemon_stats()
-    for i in range(3):
-        print(f"{i + 1}. {USER_POKEMONS[i]}")
+    print(f"You will be battling against: {ENEMY_POKEMONS[0]}\n")
+    # enemy_pokemon_stats()
+    print("""----=========================================----
+                  POKEMON CHOICES     
+----=========================================----""")
+    for i in range(5):
+        print(f"    {i + 1}. {USER_POKEMONS[i]}")
     repeat = True
     while repeat:
         try:
-            choice = int(input("Which Pokemon would you like to use: "))
-            if choice >= 1 and choice <= 3:
+            print("--------------------------------------------")
+            choice = int(input("    Which Pokemon would you like to use: "))
+            if choice >= 1 and choice <= 5:
                 print(f"You sent out {USER_POKEMONS[choice - 1]}!")
                 repeat = False
             else:
