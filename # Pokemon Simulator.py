@@ -2,6 +2,7 @@
 # Date: 14/06/22
 # By: Samuel Collinson
 
+
 import random
 import csv
 
@@ -67,7 +68,10 @@ def enemy_pokemon_stats():
     enemy_pokemon_attack = int(((2 * enemy_pokemon[2]) * enemy_level) / 100) + 5
     enemy_pokemon_defense = int(((2 * enemy_pokemon[3]) * enemy_level) / 100) + 5
     enemy_pokemon_moves()
-    print(f"lvl {enemy_level} {enemy_pokemon[0]}: {enemy_pokemon_hp}hp")
+    print(f"{enemy_pokemon[0]}:")
+    print(f"""    Level: {enemy_level}
+    Type: {enemy_pokemon[5]}, {enemy_pokemon[6]}
+    Health: {enemy_pokemon_hp}""")
 
 def enemy_pokemon_moves():
     for move in moves:
@@ -77,7 +81,7 @@ def enemy_pokemon_moves():
         elif move_type == enemy_pokemon[6]:
             possible_moves.append(moves[move])
         else:
-            random_num = random.randint(1, 200)
+            random_num = random.randint(1, 100)
             if random_num == 1:
                 possible_moves.append(moves[move])
     random.shuffle(possible_moves)
@@ -115,7 +119,10 @@ def user_pokemon_stats():
     user_pokemon_hp = int(((2 * user_choice[0][1]) * user_level) / 100) + user_level + 10
     user_pokemon_attack = int(((2 * user_choice[0][2]) * user_level) / 100) + 5
     user_pokemon_defense = int(((2 * user_choice[0][3]) * user_level) / 100) + 5
-    print(f"lvl {user_level} {user_choice[0][0]}: {user_pokemon_hp}hp")
+    print(f"{user_choice[0][0]}:")
+    print(f"""    Level: {user_level}
+    Type: {user_choice[0][5]}, {user_choice[0][6]}
+    Health: {user_pokemon_hp}""")
     user_pokemon_moves()
 
 user_possible_moves = []
@@ -130,12 +137,19 @@ def user_pokemon_moves():
             random_num = random.randint(1, 200)
             if random_num == 1:
                 user_possible_moves.append(moves[move])
+            elif len(user_possible_moves) < 4:
+                user_possible_moves.append(moves[move])
     random.shuffle(user_possible_moves)
     print("""----====================================----
                   MOVES
 ----====================================----""")
     for i in user_possible_moves[0: 4]:
-        print(i[0], i[2])
+        num_spaces = 25 - len(i[0])
+        spaces = num_spaces * " "
+        print(f"{i[0]}{spaces}{i[2]}pp")
+
+
+
 
 user_pokemon_stats()
 
