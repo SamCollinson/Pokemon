@@ -274,9 +274,5 @@ def battling():
                     print("-------------------------------------")
                     pokemon_stats()    
 
-
-
-
-
 battling()
 
