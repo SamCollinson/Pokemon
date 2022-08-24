@@ -166,16 +166,17 @@ def user_move_choice():
         for i in user_possible_moves[0: 4]:
             num_spaces = 25 - len(i[0])
             spaces = num_spaces * " "
-            print(f"    {num}. {i[0]}{spaces}{i[2]}pp")
+            print(f"    {num}. {i[0]}")
             num +=1
         print("--------------------------------------------")
         try:
+            global move_choice
             move_choice = int(input("Which move would you like to use? "))
             if move_choice >= 1 and move_choice <= 4:
                 users_move_choice.extend(user_possible_moves[move_choice - 1])
                 print("--------------------------------------------")
                 print("\n")
-                print(f"{user_choice[0]} used {users_move_choice[0]}!")
+                print(f"{user_choice[0]} used {user_possible_moves[move_choice - 1][0]}!")
                 again = False
             else:
                 print("Please enter a number from the choices")
@@ -214,18 +215,18 @@ def user_starts():
                     print("CRITICAL HIT!")
                 else:
                     crit = 1
-                users_damage = 2 * all_user_stats[0] * crit / 5 + 2 * int(users_move_choice[4]) * all_user_stats[4] / all_user_stats[5] / 50 + 2
+                users_damage = 2 * all_user_stats[0] * crit / 5 + 2 * int(user_possible_moves[move_choice - 1][3]) * all_user_stats[4] / all_user_stats[5] / 50 + 2
                 print(f"{user_choice[0]} Did {int(users_damage)} Damage To {enemy_pokemon[0]}!")
                 enemys_health = all_enemy_stats[3]
                 enemys_health = int(enemys_health - users_damage)
                 all_enemy_stats[3] = enemys_health
-                print(f"{enemy_pokemon[0]} Has {all_enemy_stats[3]}hp left!")
                 if user_fainted() == "yes":
                     repeat == False
                     exit()
                 elif enemy_fainted() == "yes":
                     repeat == False
                     exit()
+                # print(f"{enemy_pokemon[0]} Has {all_enemy_stats[3]}hp left!")
                 print("\n")
                 enemy_pokemon_moves()
                 crit_chance = random.randint(0, 100)
@@ -234,18 +235,18 @@ def user_starts():
                     print("CRITICAL HIT!")
                 else:
                     crit = 1
-                enemys_damage = 2 * all_enemy_stats[0] * crit / 5 + 2 * int(possible_moves[0][4]) * all_enemy_stats[4] / all_enemy_stats[5] / 50 + 2
+                enemys_damage = 2 * all_enemy_stats[0] * crit / 5 + 2 * int(possible_moves[0][3]) * all_enemy_stats[4] / all_enemy_stats[5] / 50 + 2
                 print(f"{enemy_pokemon[0]} Did {int(enemys_damage)} Damage To {user_choice[0]}!")
                 users_health = all_user_stats[3]
                 users_health = int(users_health - enemys_damage)
                 all_user_stats[3] = users_health
-                print(f"{user_choice[0]} Has {all_user_stats[3]}hp left!")
                 if user_fainted() == "yes":
                     repeat == False
                     exit()
                 elif enemy_fainted() == "yes":
                     repeat == False
                     exit()
+                # print(f"{user_choice[0]} Has {all_user_stats[3]}hp left!")
                 print("\n")
                 print("--------------------------------------------")
                 pokemon_stats()
@@ -262,6 +263,8 @@ def enemy_starts():
                 exit()
             print("\n")
             print(f"{enemy_pokemon[0]} Attacks First!")
+            print("\n")
+            print("--------------------------------------------")
             if all_user_stats[3] > 0 and all_enemy_stats[3] > 0:
                 enemy_pokemon_moves()
                 crit_chance = random.randint(0, 100)
@@ -270,18 +273,18 @@ def enemy_starts():
                     print("CRITICAL HIT!")
                 else:
                     crit = 1
-                enemys_damage = 2 * all_enemy_stats[0] * crit / 5 + 2 * int(possible_moves[0][4]) * all_enemy_stats[4] / all_enemy_stats[5] / 50 + 2
+                enemys_damage = 2 * all_enemy_stats[0] * crit / 5 + 2 * int(possible_moves[0][3]) * all_enemy_stats[4] / all_enemy_stats[5] / 50 + 2
                 print(f"{enemy_pokemon[0]} Did {int(enemys_damage)} Damage To {user_choice[0]}!")
                 users_health = all_user_stats[3]
                 users_health = int(users_health - enemys_damage)
                 all_user_stats[3] = users_health
-                print(f"{user_choice[0]} Has {all_user_stats[3]}hp left!")
                 if user_fainted() == "yes":
                     repeat == False
                     exit()
                 elif enemy_fainted() == "yes":
                     repeat == False
                     exit()
+                # print(f"{user_choice[0]} Has {all_user_stats[3]}hp left!")
                 user_move_choice()
                 crit_chance = random.randint(0, 100)
                 if crit_chance == 1:
@@ -289,27 +292,27 @@ def enemy_starts():
                     print("CRITICAL HIT!")
                 else:
                     crit = 1
-                users_damage = 2 * all_user_stats[0] * crit / 5 + 2 * int(users_move_choice[4]) * all_user_stats[4] / all_user_stats[5] / 50 + 2
+                users_damage = 2 * all_user_stats[0] * crit / 5 + 2 * int(user_possible_moves[move_choice - 1][3]) * all_user_stats[4] / all_user_stats[5] / 50 + 2
                 print(f"{user_choice[0]} Did {int(users_damage)} Damage To {enemy_pokemon[0]}!")
                 enemys_health = all_enemy_stats[3]
                 enemys_health = int(enemys_health - users_damage)
                 all_enemy_stats[3] = enemys_health
-                print(f"{enemy_pokemon[0]} Has {all_enemy_stats[3]}hp left!")
                 if user_fainted() == "yes":
                     repeat == False
                     exit()
                 elif enemy_fainted() == "yes":
                     repeat == False
                     exit()
+                # print(f"{enemy_pokemon[0]} Has {all_enemy_stats[3]}hp left!")
                 print("\n")
                 print("----------------------------------------------")
                 pokemon_stats()
                 
 
 def speed():
-    if all_enemy_stats[5] < all_user_stats[5]:
+    if all_enemy_stats[6] < all_user_stats[6]:
         start = "user"
-    elif all_enemy_stats[5] > all_user_stats[5]:
+    elif all_enemy_stats[6] > all_user_stats[6]:
         start = "enemy"
     else:
         random_num = random.randint(1, 2)
