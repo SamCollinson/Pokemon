@@ -3,6 +3,7 @@
 # By: Samuel Collinson
 
 
+from doctest import run_docstring_examples
 import random
 import csv
 
@@ -250,6 +251,7 @@ def user_starts():
                 print("\n")
                 print("--------------------------------------------")
                 pokemon_stats()
+                user_interface()
 
 def enemy_starts():
     if speed() == "enemy":
@@ -307,6 +309,7 @@ def enemy_starts():
                 print("\n")
                 print("----------------------------------------------")
                 pokemon_stats()
+                user_interface()
                 
 
 def speed():
@@ -326,15 +329,87 @@ def pokemon_stats():
     enemy_pokemon_stats()
     user_pokemon_stats()
 
+potion_sizes = []
+def healing():
+    while run_once == 0:
+        num_potions = random.randint(0,2)
+        if num_potions == 0:
+            print("You have 0 potions!")
+            potion_sizes.append(0)
+            user_interface()
+        else:
+            for i in range(num_potions):
+                size = random.randint(1, 3)
+                potion_sizes.append(size)
+            num_small = potion_sizes.count(1)
+            num_medium = potion_sizes.count(2)
+            num_large = potion_sizes.count(3)
+            print(f"""    You have {num_small} small potions
+        You have {num_medium} medium potions
+        You have {num_large} large potions""")
+        run_once = run_once + 1
+    print(potion_sizes)
+    if len(potion_sizes) > 0:
+        for num in potion_sizes:
+            if num == 0:
+                print("You have 0 potions to use")
+                user_interface()
+            which_size = input("Which size potion would you like to use? ").lower()
+            if which_size == "small":
+                if num == 1:
+                    print(f"You have {num_small} small potions. This will heal 10hp")
+                    use = input("Would you like to use it? ").lower()
+                    if use == "yes":
+                        all_user_stats[3] = all_user_stats[3] + 10
+                        print("You Healed 10hp!")
+                        print(f"{user_choice[0]} now has {all_user_stats[3]}hp!")
+                        potion_sizes.remove(num)
+                        user_interface()
+            elif which_size == "medium":
+                if num == 2:
+                    print(f"You have {num_medium} medium potions. This will heal 20hp")
+                    use = input("Would you like to use it? ").lower()
+                    if use == "yes":
+                        all_user_stats[3] = all_user_stats[3] + 20
+                        print("You Healed 20hp!")
+                        print(f"{user_choice[0]} now has {all_user_stats[3]}hp!")
+                        potion_sizes.remove(num)
+                        user_interface()
+            elif which_size == "large":
+                if num == 3:
+                    print(f"You have {num_large} large potions. This will heal 30hp")
+                    use = input("Would you like to use it? ").lower()
+                    if use == "yes":
+                        all_user_stats[3] = all_user_stats[3] + 30
+                        print("You Healed 30hp!")
+                        print(f"{user_choice[0]} now has {all_user_stats[3]}hp!")
+                        potion_sizes.remove(num)
+                        user_interface()
+    else:
+        print("You do not have any more potions!")
+        user_interface()
 
 def battling():
-    enemy_pokemon_stats()
-    pokemon_choice()
-    user_pokemon_stats()
+    if len(user_pokemon_choices) == 0:
+        enemy_pokemon_stats()
+        pokemon_choice()
+        user_pokemon_stats()
     if speed() == "user":
         user_starts()
     elif speed() == "enemy":
         enemy_starts()
 
-battling()
 
+def user_interface():
+    repeat = True
+    while repeat:
+        choice = input("Would you like to battle or heal? ")
+        if choice == "heal":
+            healing()
+            repeat = False
+        elif choice == "battle":
+            battling()
+            repeat = False
+        else:
+            print("Enter battle or heal")
+user_interface()
