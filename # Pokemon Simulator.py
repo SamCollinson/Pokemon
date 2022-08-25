@@ -415,7 +415,7 @@ def healing():
                 print("There are no potions for that size!")
         else:
             print("You do not have any more potions!")
-            user_interface()
+            user_interface() 
 
 def battling():
     if len(user_pokemon_choices) == 0:
